@@ -1,8 +1,15 @@
 {
   "name": "@badahertz52/sortable-list",
-  "version": "0.1.0",
+  "version": "0.0.3",
   "module": "dist/SortableList.js",
   "main": "dist/SortableList.js",
+  "author": {
+    "name": "badahertz52"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BadaHertz52/sortable.git"
+  },
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

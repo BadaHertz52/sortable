@@ -4,7 +4,8 @@ import SortableListItem from "./SortableListItem";
 function SortableList({
   data,
   onClickItem,
-  renderItem
+  renderItem,
+  updateData
 }) {
   /**
    * drag되는 item 의 index
@@ -22,6 +23,7 @@ function SortableList({
     list.splice(startIndex, 1);
     list.splice(dropIndex - (startIndex < dropIndex ? -1 : 0), 0, dragItem);
     setListData(list);
+    updateData && updateData(list);
   }, [startIndex, listData]);
   return /*#__PURE__*/React.createElement("ul", {
     className: "sortable-list"

@@ -26,7 +26,9 @@
 
 <img alt="project" src="./sortable.gif" width="150px" />
 
-Sortable 프로젝트는 마우스의 드래그, 드롭을 이용해 아이템을 재정렬할 수 있는 기능을 react를 사용해 구현하고 이를 npm에 배포하는 것을 목적으로 한 프로젝트입니다.
+sortable-list는 마우스의 드래그, 드롭을 이용해 아이템을 재정렬할 수 있는 기능 제공합니다.
+
+sortable-list는 js로 구현하는 react 환경에서 사용할 수 있으며, [sortable-list-tsc](https://www.npmjs.com/package/@badahertz52/sortable-list-tsc)에서 동일한 기능을 typescript 에서도 사용할 수 있도록 지원하고 있습니다.
 
 ## <div id="#use"> 2) Sortable 사용 방법</div>
 
@@ -42,7 +44,7 @@ npm i @badahertz52/sortable-list
 
 #### ⓐ SortableItem
 
-사용자가 지정한 data 속의 아이템들을 감싸고 있는 html요소, 마우스의 드래그,드롭 이벤트를 통해 재정렬된다.
+사용자가 지정한 data 속의 아이템들을 감싸고 있는 html요소, 마우스의 드래그,드롭 이벤트를 통해 재정렬됩니다.
 
 ```js
 const SortableItem = ({ props }) => {
@@ -68,10 +70,11 @@ const SortableItem = ({ props }) => {
 - SortableList의 props
   |props|설명|
   |---|---|
-  |data|정렬할 아이템들을 담은 배열로 배열안 요소의 형식은 사용자가 지정할 수 있다 <br/>
+  |data|정렬할 아이템들을 담은 배열로 배열안 요소의 형식은 사용자가 지정할 수 있음 <br/>
   type: Array|
   |onClickItem|정렬된 아이템들을 클릭 할 때 발생하는 이벤트 |
-  |renderItem| SortableItem의 children 요소를 반환하는 함수로 정렬할 아이템을 화면상에 어떻게 보일 지를 결정한다. <br/> parameter: item (data의 item), index(item의 data 속 index) |
+  |renderItem| SortableItem의 children 요소를 반환하는 함수로 정렬할 아이템을 화면상에 어떻게 보일 지를 결정함. <br/> parameter: item (data의 item), index(item의 data 속 index) |
+  |updateData|SortableList에서 재정렬한 data를 인수로 받아서 이를 활용할 수 있도록 해주는 함수|
 
 ### b. 사용 예시
 
