@@ -3,6 +3,7 @@
   padding-top: 10px;
   padding-left: 0;
   margin: 0;
+  position: relative;
 }
 .sortable-list .item {
   padding: 10px 0;

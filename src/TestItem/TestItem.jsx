@@ -1,6 +1,9 @@
 import React from "react";
 import "./TestItem.css";
 function TestItem({ data, index }) {
+  if (!data?.content) {
+    console.log(data, index);
+  }
   return (
     <div className="test-item">
       <div>
