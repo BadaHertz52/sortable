@@ -26,7 +26,7 @@
 
 <img alt="project" src="./sortable.gif" width="150px" />
 
-sortable-list는 마우스의 드래그, 드롭을 이용해 아이템을 재정렬할 수 있는 기능 제공합니다.
+sortable-list는 드래그, 드롭을 이용해 아이템을 재정렬할 수 있는 기능 제공합니다.
 
 sortable-list는 js로 구현하는 react 환경에서 사용할 수 있으며, [sortable-list-tsc](https://www.npmjs.com/package/@badahertz52/sortable-list-tsc)에서 동일한 기능을 typescript 에서도 사용할 수 있도록 지원하고 있습니다.
 
@@ -257,3 +257,11 @@ src, public의 변경은 git에 담기지 않기 때문에 ⚠️ **반드시 �
 ```bash
   npm public
 ```
+
+---
+
+## Update
+
+🔧 2023 .8 d
+
+- 모바일 브라우저에서도 터치를 통해 드래그 앤 드롭을 할 수 있도록 함
