@@ -1,15 +1,21 @@
 {
   "name": "@badahertz52/sortable-list",
-  "version": "0.0.5",
+  "version": "0.0.9",
   "module": "dist/SortableList.js",
   "main": "dist/SortableList.js",
   "author": {
     "name": "badahertz52"
   },
+  "keywords": [
+    "react",
+    "js",
+    "drag and drop"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/BadaHertz52/sortable.git"
   },
+  "description": "A drag-and-drop sortable list in react(width js)",
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -57,5 +63,5 @@
       "@babel/preset-react"
     ]
   },
-  "homepage": " https://badahertz52.github.io/sortable"
+  "homepage": "https://badahertz52.github.io/sortable"
 }
