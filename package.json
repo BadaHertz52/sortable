@@ -1,6 +1,6 @@
 {
   "name": "@badahertz52/sortable-list",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "module": "dist/SortableList.js",
   "main": "dist/SortableList.js",
   "author": {

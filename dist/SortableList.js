@@ -5,7 +5,8 @@ function SortableList({
   data,
   onClickItem,
   renderItem,
-  updateData
+  updateData,
+  dragItemStyleProps = undefined
 }) {
   const listRef = useRef(null);
   /**
@@ -14,12 +15,16 @@ function SortableList({
   const [startIndex, setStartIndex] = useState(0);
   const [listData, setListData] = useState(data);
   const [mobileDrag, setMobileDrag] = useState(false);
-  const initialDragItemStyle = {
+  const basicDragItemStyle = {
     position: "absolute",
     opacity: 0.5,
     top: "110%",
     left: 0
   };
+  const initialDragItemStyle = dragItemStyleProps ? {
+    ...basicDragItemStyle,
+    ...dragItemStyleProps
+  } : basicDragItemStyle;
   const [dragItemStyle, setDragItemStyle] = useState(initialDragItemStyle);
   const [dataPositionArray, setDataPositionArray] = useState(undefined);
   const onDragStart = index => setStartIndex(index);
@@ -34,7 +39,7 @@ function SortableList({
     list.splice(dropIndex, 0, dragItem);
     setListData(list);
     updateData && updateData(list);
-  }, [startIndex, listData]);
+  }, [startIndex, listData, updateData]);
   const onTouchEnd = () => {
     if (mobileDrag) {
       const dropIndex = document.querySelector(".dragover").id.replace("sortableList_item_", "");
@@ -47,16 +52,19 @@ function SortableList({
   const onTouchMove = event => {
     if (mobileDrag && dataPositionArray) {
       const itemHeight = document.querySelector(".sortable-list .item").clientHeight;
-      const top = event.touches[0].clientY;
-      const bottom = top + itemHeight;
-      setDragItemStyle({
-        ...initialDragItemStyle,
-        top: top + itemHeight * 0.5
-      });
-      const target = dataPositionArray.filter(e => e.y <= bottom && e.y >= top)[0];
-      if (target && !target.element?.classList?.contains("dragOver")) {
-        document.querySelector(".dragover")?.classList.remove("dragover");
-        target.element.classList.add("dragover");
+      if (itemHeight && listRef.current) {
+        const listTop = listRef.current.getBoundingClientRect().top;
+        const top = event.touches[0].clientY - listTop;
+        const bottom = top + itemHeight;
+        setDragItemStyle({
+          ...initialDragItemStyle,
+          top: top + itemHeight * 0.5
+        });
+        const target = dataPositionArray.filter(e => e.y <= bottom && e.y >= top)[0];
+        if (target && !target.element?.classList?.contains("dragOver")) {
+          document.querySelector(".dragover")?.classList.remove("dragover");
+          target.element.classList.add("dragover");
+        }
       }
     }
   };

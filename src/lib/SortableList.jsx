@@ -2,7 +2,13 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./SortableList.css";
 import SortableListItem from "./SortableListItem";
 
-function SortableList({ data, onClickItem, renderItem, updateData }) {
+function SortableList({
+  data,
+  onClickItem,
+  renderItem,
+  updateData,
+  dragItemStyleProps = undefined,
+}) {
   const listRef = useRef(null);
   /**
    * drag되는 item 의 index
@@ -10,12 +16,18 @@ function SortableList({ data, onClickItem, renderItem, updateData }) {
   const [startIndex, setStartIndex] = useState(0);
   const [listData, setListData] = useState(data);
   const [mobileDrag, setMobileDrag] = useState(false);
-  const initialDragItemStyle = {
+  const basicDragItemStyle = {
     position: "absolute",
     opacity: 0.5,
     top: "110%",
     left: 0,
   };
+  const initialDragItemStyle = dragItemStyleProps
+    ? {
+        ...basicDragItemStyle,
+        ...dragItemStyleProps,
+      }
+    : basicDragItemStyle;
   const [dragItemStyle, setDragItemStyle] = useState(initialDragItemStyle);
   const [dataPositionArray, setDataPositionArray] = useState(undefined);
   const onDragStart = (index) => setStartIndex(index);
@@ -32,7 +44,7 @@ function SortableList({ data, onClickItem, renderItem, updateData }) {
       setListData(list);
       updateData && updateData(list);
     },
-    [startIndex, listData]
+    [startIndex, listData, updateData]
   );
   const onTouchEnd = () => {
     if (mobileDrag) {
@@ -50,18 +62,21 @@ function SortableList({ data, onClickItem, renderItem, updateData }) {
       const itemHeight = document.querySelector(
         ".sortable-list .item"
       ).clientHeight;
-      const top = event.touches[0].clientY;
-      const bottom = top + itemHeight;
-      setDragItemStyle({
-        ...initialDragItemStyle,
-        top: top + itemHeight * 0.5,
-      });
-      const target = dataPositionArray.filter(
-        (e) => e.y <= bottom && e.y >= top
-      )[0];
-      if (target && !target.element?.classList?.contains("dragOver")) {
-        document.querySelector(".dragover")?.classList.remove("dragover");
-        target.element.classList.add("dragover");
+      if (itemHeight && listRef.current) {
+        const listTop = listRef.current.getBoundingClientRect().top;
+        const top = event.touches[0].clientY - listTop;
+        const bottom = top + itemHeight;
+        setDragItemStyle({
+          ...initialDragItemStyle,
+          top: top + itemHeight * 0.5,
+        });
+        const target = dataPositionArray.filter(
+          (e) => e.y <= bottom && e.y >= top
+        )[0];
+        if (target && !target.element?.classList?.contains("dragOver")) {
+          document.querySelector(".dragover")?.classList.remove("dragover");
+          target.element.classList.add("dragover");
+        }
       }
     }
   };

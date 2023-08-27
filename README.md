@@ -1,41 +1,27 @@
-# Sortable
+# sortable-list-tsc
 
-[🖱️프로젝트 사이트 바로가기](https://badahertz52.github.io/sortable)
+[🔗sortable-list-tsc 패키지 바로가기](https://www.npmjs.com/package/@badahertz52/sortable-list-tsc)
 
-[🔗sortable-list 패키지 바로가기](https://www.npmjs.com/package/@badahertz52/sortable-list)
+[🔗 sortable-list-tsc 패키지 사용한 샘플 보러가기 ](https://badahertz52.github.io/sortable-list-tsc/)
 
-### Index
-
-#### <a href="#sortable">1.Sortable</a>
-
-- <div id="#introduce">1) 소개</div>
-- <div id="#use"> 2)Sortable 사용 방법</div>
-
-#### <a href="#skill">2.Skill & Scripts</a>
-
-#### <a href="#study">3.배운 것</a>
-
-- <a href="#event"> 1) drag event </a>
-- <a href="#npm"> 2) npm에 패키지 배포 </a>
-
----
-
-## <div id="sortable">1. Sortable</div>
+## <div id="sortable">1. Sortable List</div>
 
 ## <div id="#introduce">1) 소개</div>
 
 <img alt="project" src="./sortable.gif" width="150px" />
 
-sortable-list는 드래그, 드롭을 이용해 아이템을 재정렬할 수 있는 기능 제공합니다.
+마우스의 드래그, 드롭 (모바일 브라우저에서는 터치)을 이용해 아이템을 재정렬할 할 수 있는 기능을 제공하는 [sortable-list 라이브러리](https://www.npmjs.com/package/@badahertz52/sortable-list) 는 react(with js)에서만 사용할 수 있었기 때문에, typescript 로 진행하는 react 프로젝트에서도 사용할 수 있는 sortable-list-tsc를 만들었다.
 
-sortable-list는 js로 구현하는 react 환경에서 사용할 수 있으며, [sortable-list-tsc](https://www.npmjs.com/package/@badahertz52/sortable-list-tsc)에서 동일한 기능을 typescript 에서도 사용할 수 있도록 지원하고 있습니다.
+🔗[sortable-list github 바로가기](https://github.com/BadaHertz52/sortable)
 
-## <div id="#use"> 2) Sortable 사용 방법</div>
+🔗[sortable-list npm 바로가기](https://www.npmjs.com/package/@badahertz52/sortable-list)
+
+## <div id="#use"> 2) 사용 방법</div>
 
 ### A. 설치
 
 ```bash
-npm i @badahertz52/sortable-list
+npm i @badahertz52/sortable-list-tsc
 ```
 
 ### B. 설명
@@ -44,10 +30,21 @@ npm i @badahertz52/sortable-list
 
 #### ⓐ SortableItem
 
-사용자가 지정한 data 속의 아이템들을 감싸고 있는 html요소, 마우스의 드래그,드롭 이벤트를 통해 재정렬됩니다.
+사용자가 지정한 data 속의 아이템들을 감싸고 있는 html요소, 드래그,드롭 이벤트(모바일에서는 터치 이벤트)를 통해 재정렬된다.
 
-```js
-const SortableItem = ({ props }) => {
+```ts
+type SortableListItemProps = {
+  index: number;
+  draggable: boolean;
+  children?: ReactNode;
+  onDragStart?: (index: number) => void;
+  onDropItem: (index: number) => void;
+  onClickItem?: (index: number) => void;
+  mobileDrag: boolean;
+  setMobileDrag: Dispatch<SetStateAction<boolean>>;
+};
+
+const SortableItem = ({ props }: SortableListItemProps) => {
   return <li>{props.children}</li>;
 };
 ```
@@ -56,26 +53,41 @@ const SortableItem = ({ props }) => {
   |props|설명|
   |---|---|
   | index|SortableItem이 감싸고 있는 data 속 아이템의 index |
-  draggable|마우스로 드래그 할 수 있는 지 여부 , type:boolean|
+  draggable|마우스로 드래그 할 수 있는 지 여부, type:boolean|
   children|data 속의 아이템을 화면에 표시하는 컴포넌트 ,<br/> 예시 : <a href="#testItem"> TestItem </a>|
   onDragStart| 드래그 시,startIndex의 상태를 드래그되는 아이템의 index로 변경하는 함수 |
   onDropItem| 아이템을 드롭 시, 드롭되는 위치에 맞게 아이템을 재정렬하는 함수|
   onClickItem|정렬된 아이템들을 클릭 할 때 발생하는 이벤트|
-   mobileDrag, setMobileDrag|모바일 브라우저에서 드래그앤 드롭을 시작하는 지 여부|
+  mobileDrag, setMobileDrag|모바일 브라우저에서 드래그앤 드롭을 시작하는 지 여부|
   <br/>
 
 #### ⓑ SortableList
 
 여러 개의 SortableItem을 가지고 있는, SortableItem의 부모 요소
 
+```ts
+type SortableListProps = {
+  data: any;
+  onClickItem: (index: number) => void;
+  renderItem: (item: any, index: number) => JSX.Element;
+  updateList?: (newPlayList: any) => void;
+  dragItemStyleProps?: CSSProperties;
+};
+
+const SortableList = ({props}:SortableListProps) => {
+  ....
+}
+```
+
 - SortableList의 props
   |props|설명|
   |---|---|
-  |data|정렬할 아이템들을 담은 배열로 배열안 요소의 형식은 사용자가 지정할 수 있음 <br/>
+  |data|정렬할 아이템들을 담은 배열로 배열안 요소의 형식은 사용자가 지정할 수 있다 <br/>
   type: Array|
   |onClickItem|정렬된 아이템들을 클릭 할 때 발생하는 이벤트 |
-  |renderItem| SortableItem의 children 요소를 반환하는 함수로 정렬할 아이템을 화면상에 어떻게 보일 지를 결정함. <br/> parameter: item (data의 item), index(item의 data 속 index) |
-  |updateData|SortableList에서 재정렬한 data를 인수로 받아서 이를 활용할 수 있도록 해주는 함수|
+  |renderItem| SortableItem의 children 요소를 반환하는 함수로 정렬할 아이템을 화면상에 어떻게 보일 지를 결정한다. <br/> parameter: item (data의 item), index(item의 data 속 index) |
+  |updateData|onDropItem 에서 item을 재졍렬해 data를 변경할때, 변경된 data를 SortableList 외부에서도 반영할 수 있게 해ㅔ준다. |
+  |dragItemStyleProps| 모바일 브라우저에서 드래그앤 드롭을 실행 시, 터치 포인트를 따라다니는 요소의 스타일로 기본값은 undefined ,type:CSSProperties|undefined|
 
 ### b. 사용 예시
 
@@ -135,7 +147,7 @@ export const data = [
 
 ### Skill
 
-- HTML, CSS, JS
+- HTML, CSS, TypeScript
 - React
 
 ### install
@@ -258,8 +270,6 @@ src, public의 변경은 git에 담기지 않기 때문에 ⚠️ **반드시 �
 ```bash
   npm public
 ```
-
----
 
 ## Update
 
